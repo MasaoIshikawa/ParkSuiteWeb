@@ -101,3 +101,4 @@ export function logout() {
     promise: (client) => client.get('/logout')
   };
 }
+

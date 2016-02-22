@@ -10,7 +10,8 @@ export default class Login extends Component {
   static propTypes = {
     user: PropTypes.object,
     login: PropTypes.func,
-    logout: PropTypes.func
+    logout: PropTypes.func,
+    signup: PropTypes.func
   }
 
   handleSubmit = (event) => {
@@ -18,6 +19,11 @@ export default class Login extends Component {
     const input = this.refs.username;
     this.props.login(input.value);
     input.value = '';
+  }
+
+  handleSignUp = (event) => {
+    event.preventDefault();
+    window.location.assign('/signup');
   }
 
   render() {
@@ -33,7 +39,9 @@ export default class Login extends Component {
             <div className="form-group">
               <input type="text" ref="username" placeholder="Enter a username" className="form-control"/>
             </div>
-            <button className="btn btn-success" onClick={this.handleSubmit}><i className="fa fa-sign-in"/>{' '}Log In
+            <button className="btn btn-success" onClick={this.handleSubmit}><i className="fa fa-sign-in"/>{' '}Sign In
+            </button>
+            <button className="btn btn-success" onClick={this.handleSignUp}><i className="fa fa-sign-up"/>{' '}Sign Up
             </button>
           </form>
           <p>This will "log you in" as this user, storing the username in the session of the API server.</p>

@@ -10,18 +10,6 @@ export default class About extends Component {
 
   handleToggleKitten = () => this.setState({showKitten: !this.state.showKitten});
 
-  testFunc = () => {
-    var Swagger = require('swagger-client');
-    var client = new Swagger({
-      url: 'http://petstore.swagger.io/v2/swagger.json',
-      success: function() {
-        client.pet.getPetById({petId:7},{responseContentType: 'application/json'},function(pet){
-          console.log('pet', pet);
-        });
-      }
-    });
-  }
-
   render() {
     const {showKitten} = this.state;
     const kitten = require('./kitten.jpg');
@@ -53,11 +41,6 @@ export default class About extends Component {
                   style={{marginLeft: 50}}
                   onClick={this.handleToggleKitten}>
             {showKitten ? 'No! Take it away!' : 'Yes! Please!'}</button>
-
-          <button className={'btn btn-primary'}
-                style={{marginLeft: 50}}
-                onClick={this.testFunc}>API
-          </button>
         </p>
 
         {showKitten && <div><img src={kitten}/></div>}
