@@ -14,11 +14,11 @@ export default class SignUp extends Component {
 
   handleSubmit = (data) => {
     window.alert('Data submitted! ' + JSON.stringify(data));
-    this.props.initialize('survey', {});
+    this.props.initialize('signup', {});
   }
 
   handleInitialize = () => {
-    this.props.initialize('survey', {
+    this.props.initialize('signup', {
       name: 'Little Bobby Tables',
       email: 'bobby@gmail.com',
       occupation: 'Redux Wizard',

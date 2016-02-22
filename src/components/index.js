@@ -10,5 +10,6 @@ export GithubButton from './GithubButton/GithubButton';
 export InfoBar from './InfoBar/InfoBar';
 export MiniInfoBar from './MiniInfoBar/MiniInfoBar';
 export SurveyForm from './SurveyForm/SurveyForm';
-export SignupForm from './SignupForm/SignupForm';
 export WidgetForm from './WidgetForm/WidgetForm';
+export SignupForm from './SignupForm/SignupForm';
+export FacebookButton from './FacebookButton/FacebookButton';
