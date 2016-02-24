@@ -12,13 +12,13 @@ export default class Login extends Component {
     user: PropTypes.object,
     login: PropTypes.func,
     logout: PropTypes.func,
-    signup: PropTypes.func
+    signup: PropTypes.func,
+    handleSubmit: PropTypes.func.isRequired
   }
 
-  handleLogin = (data) => {
-    event.preventDefault();
+  handleSubmit = (data) => {
     window.alert('Data submitted! ' + data.email);
-    this.props.login('Bram');
+    this.props.login(data.email);
   }
 
   handleSignup = (event) => {
@@ -53,7 +53,7 @@ export default class Login extends Component {
               <i className="fa fa-pencil"/> Google
             </button>
           </div>
-          <LoginForm onSubmit={this.handleLogin}/>
+          <LoginForm onSubmit={this.handleSubmit}/>
           <div style={{textAlign: 'center', margin: 15}}>
             <button className="btn btn-primary" onClick={this.handleSignup}>
               <i className="fa fa-pencil"/> Sign up

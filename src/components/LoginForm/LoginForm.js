@@ -72,7 +72,7 @@ class LoginForm extends Component {
           <div className="form-group">
             <div className="col-sm-offset-2 col-sm-10">
               <button className="btn btn-success" onClick={handleSubmit}>
-                <i className="fa fa-paper-plane"/> Sign in
+                <i className="fa fa-paper-plane"/> Submit
               </button>
               <button className="btn btn-warning" onClick={resetForm} style={{marginLeft: 15}}>
                 <i className="fa fa-undo"/> Reset
