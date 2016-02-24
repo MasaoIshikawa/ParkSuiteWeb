@@ -12,4 +12,4 @@ export MiniInfoBar from './MiniInfoBar/MiniInfoBar';
 export SurveyForm from './SurveyForm/SurveyForm';
 export WidgetForm from './WidgetForm/WidgetForm';
 export SignupForm from './SignupForm/SignupForm';
-export FacebookButton from './FacebookButton/FacebookButton';
+export LoginForm from './LoginForm/LoginForm';

@@ -13,7 +13,16 @@ export default class SignUp extends Component {
   }
 
   handleSubmit = (data) => {
-    window.alert('Data submitted! ' + JSON.stringify(data));
+    const Swagger = require('swagger-client');
+    const client = new Swagger({
+      url: 'https://api-staging.parksuiteapp.com/v1/swagger',
+      success: function() {
+        client.auth.emailLogin( {credentials: {email: data.email, password: data.password}}, {responseContentType: 'application/json'}, function(auth) {
+          console.log('auth', auth);
+        });
+      }
+    });
+    window.alert('Data submitted! ' + data.email);
     this.props.initialize('signup', {});
   }
 

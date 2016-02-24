@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {reduxForm} from 'redux-form';
-import signupValidation from './signupValidation';
+import loginValidation from './loginValidation';
 
 function asyncValidate(data) {
   // TODO: figure out a way to move this to the server. need an instance of ApiClient
@@ -25,14 +25,14 @@ function asyncValidate(data) {
 }
 
 @reduxForm({
-  form: 'signup',
-  fields: ['name', 'email', 'password', 'phone', 'work'],
-  validate: signupValidation,
+  form: 'login',
+  fields: ['email', 'password'],
+  validate: loginValidation,
   asyncValidate,
   asyncBlurFields: ['email']
 })
 export default
-class SignupForm extends Component {
+class LoginForm extends Component {
   static propTypes = {
     asyncValidating: PropTypes.bool.isRequired,
     fields: PropTypes.object.isRequired,
@@ -43,11 +43,11 @@ class SignupForm extends Component {
   render() {
     const {
       asyncValidating,
-      fields: {name, email, password, phone, work},
+      fields: {email, password},
       handleSubmit,
       resetForm
       } = this.props;
-    const styles = require('./SignupForm.scss');
+    const styles = require('./LoginForm.scss');
     const renderInput = (field, label, showAsyncValidating) =>
       <div className={'form-group' + (field.error && field.touched ? ' has-error' : '')}>
         <label htmlFor={field.name} className="col-sm-2">{label}</label>
@@ -67,23 +67,12 @@ class SignupForm extends Component {
     return (
       <div>
         <form className="form-horizontal" onSubmit={handleSubmit}>
-          {renderInput(name, 'Full Name')}
           {renderInput(email, 'Email', true)}
           {renderInput(password, 'Password')}
-          {renderInput(phone, 'Mobile Phone')}
-          <div className="form-group">
-            <label className="col-sm-2">Work</label>
-            <div className="col-sm-8">
-              <input type="radio" id="work-host" {...work} value="host" checked={work.value === 'host'}/>
-              <label htmlFor="work-host" className={styles.radioLabel}>Host</label>
-              <input type="radio" id="work-driver" {...work} value="driver" checked={work.value === 'driver'}/>
-              <label htmlFor="work-driver" className={styles.radioLabel}>Driver</label>
-            </div>
-          </div>
           <div className="form-group">
             <div className="col-sm-offset-2 col-sm-10">
               <button className="btn btn-success" onClick={handleSubmit}>
-                <i className="fa fa-paper-plane"/> Submit
+                <i className="fa fa-paper-plane"/> Sign in
               </button>
               <button className="btn btn-warning" onClick={resetForm} style={{marginLeft: 15}}>
                 <i className="fa fa-undo"/> Reset

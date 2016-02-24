@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import Helmet from 'react-helmet';
+import {LoginForm} from 'components';
 import * as authActions from 'redux/modules/auth';
 
 @connect(
@@ -14,16 +15,23 @@ export default class Login extends Component {
     signup: PropTypes.func
   }
 
-  handleSubmit = (event) => {
+  handleLogin = (data) => {
     event.preventDefault();
-    const input = this.refs.username;
-    this.props.login(input.value);
-    input.value = '';
+    window.alert('Data submitted! ' + data.email);
+    this.props.login('Bram');
   }
 
-  handleSignUp = (event) => {
+  handleSignup = (event) => {
     event.preventDefault();
     window.location.assign('/signup');
+  }
+
+  handleFacebook = (event) => {
+    event.preventDefault();
+  }
+
+  handleGoogle = (event) => {
+    event.preventDefault();
   }
 
   render() {
@@ -35,16 +43,22 @@ export default class Login extends Component {
         <h1>Login</h1>
         {!user &&
         <div>
-          <form className="login-form form-inline" onSubmit={this.handleSubmit}>
-            <div className="form-group">
-              <input type="text" ref="username" placeholder="Enter a username" className="form-control"/>
-            </div>
-            <button className="btn btn-success" onClick={this.handleSubmit}><i className="fa fa-sign-in"/>{' '}Sign In
+          <div style={{textAlign: 'center', margin: 15}}>
+            <button className="btn btn-primary" onClick={this.handleFacebook}>
+              <i className="fa fa-pencil"/> Facebook
             </button>
-            <button className="btn btn-success" onClick={this.handleSignUp}><i className="fa fa-sign-up"/>{' '}Sign Up
+          </div>
+          <div style={{textAlign: 'center', margin: 15}}>
+            <button className="btn btn-primary" onClick={this.handleGoogle}>
+              <i className="fa fa-pencil"/> Google
             </button>
-          </form>
-          <p>This will "log you in" as this user, storing the username in the session of the API server.</p>
+          </div>
+          <LoginForm onSubmit={this.handleLogin}/>
+          <div style={{textAlign: 'center', margin: 15}}>
+            <button className="btn btn-primary" onClick={this.handleSignup}>
+              <i className="fa fa-pencil"/> Sign up
+            </button>
+          </div>
         </div>
         }
         {user &&
