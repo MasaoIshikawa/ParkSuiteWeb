@@ -17,8 +17,27 @@ export default class Login extends Component {
   }
 
   handleSubmit = (data) => {
-    window.alert('Data submitted! ' + data.email);
-    this.props.login(data.email);
+    let success = false;
+    const loginFunc = this.props.login;
+    const Swagger = require('swagger-client');
+    new Swagger({
+      url: 'https://api-staging.parksuiteapp.com/v1/swagger',
+      usePromise: true
+    })
+    .then(function(client) {
+      client.auth.emailLogin({credentials: {email: data.email, password: data.password}}, {responseContentType: 'application/json'})
+        .then(function(auth) {
+          success = true;
+          console.log(auth);
+          loginFunc(data.email);
+        })
+        .catch(function(error) {
+          console.log('Oops!  failed with message: ' + error.statusText);
+          if (!success) {
+            alert(error.statusText);
+          }
+        });
+    });
   }
 
   handleSignup = (event) => {
@@ -43,22 +62,7 @@ export default class Login extends Component {
         <h1>Login</h1>
         {!user &&
         <div>
-          <div style={{textAlign: 'center', margin: 15}}>
-            <button className="btn btn-primary" onClick={this.handleFacebook}>
-              <i className="fa fa-pencil"/> Facebook
-            </button>
-          </div>
-          <div style={{textAlign: 'center', margin: 15}}>
-            <button className="btn btn-primary" onClick={this.handleGoogle}>
-              <i className="fa fa-pencil"/> Google
-            </button>
-          </div>
           <LoginForm onSubmit={this.handleSubmit}/>
-          <div style={{textAlign: 'center', margin: 15}}>
-            <button className="btn btn-primary" onClick={this.handleSignup}>
-              <i className="fa fa-pencil"/> Sign up
-            </button>
-          </div>
         </div>
         }
         {user &&

@@ -44,8 +44,7 @@ class LoginForm extends Component {
     const {
       asyncValidating,
       fields: {email, password},
-      handleSubmit,
-      resetForm
+      handleSubmit
       } = this.props;
     const styles = require('./LoginForm.scss');
     const renderInput = (field, label, showAsyncValidating) =>
@@ -53,14 +52,9 @@ class LoginForm extends Component {
         <label htmlFor={field.name} className="col-sm-2">{label}</label>
         <div className={'col-sm-8 ' + styles.inputGroup}>
           {showAsyncValidating && asyncValidating && <i className={'fa fa-cog fa-spin ' + styles.cog}/>}
-          <input type="text" className="form-control" id={field.name} {...field}/>
+          {label !== 'Password' && <input type="text" className="form-control" id={field.name} {...field}/>}
+          {label === 'Password' && <input type="password" className="form-control" id={field.name} {...field}/>}
           {field.error && field.touched && <div className="text-danger">{field.error}</div>}
-          <div className={styles.flags}>
-            {field.dirty && <span className={styles.dirty} title="Dirty">D</span>}
-            {field.active && <span className={styles.active} title="Active">A</span>}
-            {field.visited && <span className={styles.visited} title="Visited">V</span>}
-            {field.touched && <span className={styles.touched} title="Touched">T</span>}
-          </div>
         </div>
       </div>;
 
@@ -69,15 +63,10 @@ class LoginForm extends Component {
         <form className="form-horizontal" onSubmit={handleSubmit}>
           {renderInput(email, 'Email', true)}
           {renderInput(password, 'Password')}
-          <div className="form-group">
-            <div className="col-sm-offset-2 col-sm-10">
-              <button className="btn btn-success" onClick={handleSubmit}>
-                <i className="fa fa-paper-plane"/> Submit
-              </button>
-              <button className="btn btn-warning" onClick={resetForm} style={{marginLeft: 15}}>
-                <i className="fa fa-undo"/> Reset
-              </button>
-            </div>
+          <div style={{textAlign: 'center', margin: 15}}>
+            <button className="btn btn-primary" onClick={this.handleSubmit}>
+              <i className="fa fa-pencil"/> Login
+            </button>
           </div>
         </form>
       </div>

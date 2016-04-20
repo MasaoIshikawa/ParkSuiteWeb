@@ -1,38 +1,40 @@
 import React, {Component, PropTypes} from 'react';
 import Helmet from 'react-helmet';
 import {connect} from 'react-redux';
-import {initialize} from 'redux-form';
 import {SignupForm} from 'components';
+import * as authActions from 'redux/modules/auth';
 
 @connect(
-  () => ({}),
-  {initialize})
+  state => ({user: state.auth.user}),
+  authActions)
 export default class SignUp extends Component {
   static propTypes = {
-    initialize: PropTypes.func.isRequired
+    user: PropTypes.object,
+    login: PropTypes.func,
+    handleSubmit: PropTypes.func
   }
 
   handleSubmit = (data) => {
+    const loginFunc = this.props.login;
+    let success = false;
     const Swagger = require('swagger-client');
-    const client = new Swagger({
+    new Swagger({
       url: 'https://api-staging.parksuiteapp.com/v1/swagger',
-      success: function() {
-        client.auth.emailLogin( {credentials: {email: data.email, password: data.password}}, {responseContentType: 'application/json'}, function(auth) {
-          console.log('auth', auth);
+      usePromise: true
+    })
+    .then(function(client) {
+      client.users.createUser({newUser: {email: data.email, password: data.password}}, {responseContentType: 'application/json'})
+        .then(function(auth) {
+          console.log(auth);
+          success = true;
+          loginFunc(data.email);
+        })
+        .catch(function(error) {
+          console.log('Oops!  failed with message: ' + error.statusText);
+          if (!success) {
+            alert(error.statusText);
+          }
         });
-      }
-    });
-    window.alert('Data submitted! ' + data.email);
-    this.props.initialize('signup', {});
-  }
-
-  handleInitialize = () => {
-    this.props.initialize('signup', {
-      name: 'Little Bobby Tables',
-      email: 'bobby@gmail.com',
-      occupation: 'Redux Wizard',
-      currentlyEmployed: true,
-      sex: 'male'
     });
   }
 
@@ -41,13 +43,16 @@ export default class SignUp extends Component {
       <div className="container">
         <h1>SignUp</h1>
         <Helmet title="Sign Up"/>
-
         <div style={{textAlign: 'center', margin: 15}}>
-          <button className="btn btn-primary" onClick={this.handleInitialize}>
-            <i className="fa fa-pencil"/> Initialize Form
-          </button>
-        </div>
-
+            <button className="btn btn-primary" onClick={this.handleFacebook}>
+              <i className="fa fa-pencil"/> Signup Facebook
+            </button>
+          </div>
+          <div style={{textAlign: 'center', margin: 15}}>
+            <button className="btn btn-primary" onClick={this.handleGoogle}>
+              <i className="fa fa-pencil"/> Signup Google
+            </button>
+          </div>
         <SignupForm onSubmit={this.handleSubmit}/>
       </div>
     );
